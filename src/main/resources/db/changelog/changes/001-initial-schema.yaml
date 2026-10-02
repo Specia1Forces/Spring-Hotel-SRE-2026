@@ -1,0 +1,529 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-reference-tables
+      author: spring-hotel
+      objectQuotingStrategy: QUOTE_ALL_OBJECTS
+      changes:
+        - createTable:
+            tableName: Client of hotel
+            columns:
+              - column:
+                  name: Client ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: Name
+                  type: VARCHAR(255)
+              - column:
+                  name: Middle name
+                  type: VARCHAR(255)
+              - column:
+                  name: Last name
+                  type: VARCHAR(255)
+              - column:
+                  name: Gender
+                  type: VARCHAR(255)
+              - column:
+                  name: Birthdate
+                  type: DATE
+              - column:
+                  name: Address
+                  type: VARCHAR(255)
+              - column:
+                  name: Phone
+                  type: VARCHAR(255)
+        - createTable:
+            tableName: Type of document
+            columns:
+              - column:
+                  name: Document type ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: Name
+                  type: VARCHAR(255)
+        - createTable:
+            tableName: All services
+            columns:
+              - column:
+                  name: Service ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: Service price
+                  type: INT
+        - createTable:
+            tableName: Room category
+            columns:
+              - column:
+                  name: Class room ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: Room type
+                  type: VARCHAR(255)
+              - column:
+                  name: Rent value
+                  type: INT
+              - column:
+                  name: Number of places
+                  type: INT
+              - column:
+                  name: Description
+                  type: VARCHAR(255)
+        - createTable:
+            tableName: The Maids
+            columns:
+              - column:
+                  name: MAID_ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: Name
+                  type: VARCHAR(255)
+              - column:
+                  name: Middle name
+                  type: VARCHAR(255)
+              - column:
+                  name: Last name
+                  type: VARCHAR(255)
+        - createTable:
+            tableName: Technical Maintenance Personnel
+            columns:
+              - column:
+                  name: Collaborator Maintenance ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: Name
+                  type: VARCHAR(255)
+              - column:
+                  name: Middle name
+                  type: VARCHAR(255)
+              - column:
+                  name: Last name
+                  type: VARCHAR(255)
+
+  - changeSet:
+      id: 002-create-business-tables
+      author: spring-hotel
+      objectQuotingStrategy: QUOTE_ALL_OBJECTS
+      changes:
+        - createTable:
+            tableName: Documentation personality
+            columns:
+              - column:
+                  name: Documentation personality ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: Series
+                  type: INT
+              - column:
+                  name: Number
+                  type: INT
+              - column:
+                  name: Client of hotel_Client ID
+                  type: INT
+              - column:
+                  name: Type of document_Document type ID
+                  type: INT
+        - createTable:
+            tableName: Contracts
+            columns:
+              - column:
+                  name: contract number
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: Term of stay
+                  type: INT
+              - column:
+                  name: date conclusion agreement
+                  type: DATE
+              - column:
+                  name: Client of hotel_Client ID
+                  type: INT
+        - createTable:
+            tableName: Booking
+            columns:
+              - column:
+                  name: Reservation ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: Settlement date
+                  type: DATE
+              - column:
+                  name: Eviction date
+                  type: DATE
+              - column:
+                  name: Total amount of the payment
+                  type: INT
+              - column:
+                  name: Prepayment status
+                  type: VARCHAR(255)
+              - column:
+                  name: Booking status
+                  type: VARCHAR(255)
+              - column:
+                  name: Residence status
+                  type: VARCHAR(255)
+              - column:
+                  name: Client of hotel_Client ID
+                  type: INT
+        - createTable:
+            tableName: Accounts
+            columns:
+              - column:
+                  name: Account_number
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: Amount to be paid
+                  type: INT
+              - column:
+                  name: Amount of the prepayment
+                  type: INT
+              - column:
+                  name: Amount for additionalServices
+                  type: INT
+              - column:
+                  name: Booking_Reservation ID
+                  type: INT
+        - createTable:
+            tableName: Room
+            columns:
+              - column:
+                  name: Room code
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: Floor
+                  type: VARCHAR(255)
+              - column:
+                  name: occupied free
+                  type: VARCHAR(255)
+              - column:
+                  name: Room category_Class room ID
+                  type: INT
+        - createTable:
+            tableName: Rel between rooms booking
+            columns:
+              - column:
+                  name: Relationship ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: Booking_Reservation ID
+                  type: INT
+              - column:
+                  name: Room_Room code
+                  type: INT
+        - createTable:
+            tableName: Payment for additional services
+            columns:
+              - column:
+                  name: Payment for add services ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: Date
+                  type: DATE
+              - column:
+                  name: count services
+                  type: INT
+              - column:
+                  name: The total amount of payment
+                  type: INT
+              - column:
+                  name: Payment method
+                  type: VARCHAR(255)
+              - column:
+                  name: Payment status
+                  type: VARCHAR(255)
+              - column:
+                  name: All services_Service ID
+                  type: INT
+              - column:
+                  name: Accounts_Account_number
+                  type: INT
+        - createTable:
+            tableName: Cleaning schedule
+            columns:
+              - column:
+                  name: Cleaning schedule ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: Cleaning date
+                  type: DATE
+              - column:
+                  name: Cleaning status
+                  type: VARCHAR(255)
+              - column:
+                  name: The maids_MAID_ID
+                  type: INT
+              - column:
+                  name: Rel between rooms booking_Relationship ID
+                  type: INT
+        - createTable:
+            tableName: Maintenance Log
+            columns:
+              - column:
+                  name: Maintenance Log ID
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: Problem in the dimension
+                  type: VARCHAR(255)
+              - column:
+                  name: Fixed or uncorrected
+                  type: VARCHAR(255)
+              - column:
+                  name: Technical Maintenance Personne_Collaborator Maintenance ID
+                  type: INT
+              - column:
+                  name: Rel between rooms booking_Relationship ID2
+                  type: INT
+
+  - changeSet:
+      id: 003-create-business-constraints
+      author: spring-hotel
+      objectQuotingStrategy: QUOTE_ALL_OBJECTS
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_documentation_client
+            baseTableName: Documentation personality
+            baseColumnNames: Client of hotel_Client ID
+            referencedTableName: Client of hotel
+            referencedColumnNames: Client ID
+        - addForeignKeyConstraint:
+            constraintName: fk_documentation_type
+            baseTableName: Documentation personality
+            baseColumnNames: Type of document_Document type ID
+            referencedTableName: Type of document
+            referencedColumnNames: Document type ID
+        - addUniqueConstraint:
+            constraintName: uk_documentation_client
+            tableName: Documentation personality
+            columnNames: Client of hotel_Client ID
+        - addUniqueConstraint:
+            constraintName: uk_documentation_type
+            tableName: Documentation personality
+            columnNames: Type of document_Document type ID
+        - addForeignKeyConstraint:
+            constraintName: fk_contracts_client
+            baseTableName: Contracts
+            baseColumnNames: Client of hotel_Client ID
+            referencedTableName: Client of hotel
+            referencedColumnNames: Client ID
+        - addForeignKeyConstraint:
+            constraintName: fk_booking_client
+            baseTableName: Booking
+            baseColumnNames: Client of hotel_Client ID
+            referencedTableName: Client of hotel
+            referencedColumnNames: Client ID
+        - addForeignKeyConstraint:
+            constraintName: fk_accounts_booking
+            baseTableName: Accounts
+            baseColumnNames: Booking_Reservation ID
+            referencedTableName: Booking
+            referencedColumnNames: Reservation ID
+        - addUniqueConstraint:
+            constraintName: uk_accounts_booking
+            tableName: Accounts
+            columnNames: Booking_Reservation ID
+        - addForeignKeyConstraint:
+            constraintName: fk_room_category
+            baseTableName: Room
+            baseColumnNames: Room category_Class room ID
+            referencedTableName: Room category
+            referencedColumnNames: Class room ID
+        - addForeignKeyConstraint:
+            constraintName: fk_room_booking_booking
+            baseTableName: Rel between rooms booking
+            baseColumnNames: Booking_Reservation ID
+            referencedTableName: Booking
+            referencedColumnNames: Reservation ID
+        - addForeignKeyConstraint:
+            constraintName: fk_room_booking_room
+            baseTableName: Rel between rooms booking
+            baseColumnNames: Room_Room code
+            referencedTableName: Room
+            referencedColumnNames: Room code
+        - addForeignKeyConstraint:
+            constraintName: fk_payment_service
+            baseTableName: Payment for additional services
+            baseColumnNames: All services_Service ID
+            referencedTableName: All services
+            referencedColumnNames: Service ID
+        - addForeignKeyConstraint:
+            constraintName: fk_payment_account
+            baseTableName: Payment for additional services
+            baseColumnNames: Accounts_Account_number
+            referencedTableName: Accounts
+            referencedColumnNames: Account_number
+        - addForeignKeyConstraint:
+            constraintName: fk_cleaning_maid
+            baseTableName: Cleaning schedule
+            baseColumnNames: The maids_MAID_ID
+            referencedTableName: The Maids
+            referencedColumnNames: MAID_ID
+        - addForeignKeyConstraint:
+            constraintName: fk_cleaning_room_booking
+            baseTableName: Cleaning schedule
+            baseColumnNames: Rel between rooms booking_Relationship ID
+            referencedTableName: Rel between rooms booking
+            referencedColumnNames: Relationship ID
+        - addForeignKeyConstraint:
+            constraintName: fk_maintenance_personnel
+            baseTableName: Maintenance Log
+            baseColumnNames: Technical Maintenance Personne_Collaborator Maintenance ID
+            referencedTableName: Technical Maintenance Personnel
+            referencedColumnNames: Collaborator Maintenance ID
+        - addForeignKeyConstraint:
+            constraintName: fk_maintenance_room_booking
+            baseTableName: Maintenance Log
+            baseColumnNames: Rel between rooms booking_Relationship ID2
+            referencedTableName: Rel between rooms booking
+            referencedColumnNames: Relationship ID
+
+  - changeSet:
+      id: 004-create-spring-session-schema
+      author: spring-hotel
+      objectQuotingStrategy: LEGACY
+      changes:
+        - createTable:
+            tableName: SPRING_SESSION
+            columns:
+              - column:
+                  name: PRIMARY_ID
+                  type: CHAR(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: SESSION_ID
+                  type: CHAR(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: CREATION_TIME
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: LAST_ACCESS_TIME
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: MAX_INACTIVE_INTERVAL
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: EXPIRY_TIME
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PRINCIPAL_NAME
+                  type: VARCHAR(100)
+        - createIndex:
+            tableName: SPRING_SESSION
+            indexName: SPRING_SESSION_IX1
+            unique: true
+            columns:
+              - column:
+                  name: SESSION_ID
+        - createIndex:
+            tableName: SPRING_SESSION
+            indexName: SPRING_SESSION_IX2
+            columns:
+              - column:
+                  name: EXPIRY_TIME
+        - createIndex:
+            tableName: SPRING_SESSION
+            indexName: SPRING_SESSION_IX3
+            columns:
+              - column:
+                  name: PRINCIPAL_NAME
+        - createTable:
+            tableName: SPRING_SESSION_ATTRIBUTES
+            columns:
+              - column:
+                  name: SESSION_PRIMARY_ID
+                  type: CHAR(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ATTRIBUTE_NAME
+                  type: VARCHAR(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ATTRIBUTE_BYTES
+                  type: BYTEA
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: SPRING_SESSION_ATTRIBUTES
+            columnNames: SESSION_PRIMARY_ID, ATTRIBUTE_NAME
+            constraintName: SPRING_SESSION_ATTRIBUTES_PK
+        - addForeignKeyConstraint:
+            constraintName: SPRING_SESSION_ATTRIBUTES_FK
+            baseTableName: SPRING_SESSION_ATTRIBUTES
+            baseColumnNames: SESSION_PRIMARY_ID
+            referencedTableName: SPRING_SESSION
+            referencedColumnNames: PRIMARY_ID
+            onDelete: CASCADE
