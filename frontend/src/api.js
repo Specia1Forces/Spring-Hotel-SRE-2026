@@ -1,8 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL
-
-if (!API_URL) {
-  throw new Error('Не задана обязательная переменная VITE_API_URL')
-}
+const API_URL = '/api/v1'
 
 let csrf = null
 
