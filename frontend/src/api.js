@@ -1,4 +1,8 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1'
+const API_URL = import.meta.env.VITE_API_URL
+
+if (!API_URL) {
+  throw new Error('Не задана обязательная переменная VITE_API_URL')
+}
 
 let csrf = null
 
