@@ -1,0 +1,14 @@
+.git
+.idea
+.vscode
+target
+frontend
+k8s
+.env
+.env.*
+*.iml
+*.log
+README.md
+HELP.md
+compose.yaml
+mvnw.cmd

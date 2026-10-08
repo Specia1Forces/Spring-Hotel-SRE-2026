@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotel-backend
+  namespace: hotel
+  labels:
+    app.kubernetes.io/name: hotel-backend
+    app.kubernetes.io/part-of: spring-hotel
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: hotel-backend
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: hotel-backend
+        app.kubernetes.io/part-of: spring-hotel
+    spec:
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: backend
+          image: hotel-backend:0.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: hotel-config
+                  key: PORT
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: hotel-config
+                  key: DB_URL
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: hotel-secret
+                  key: DB_USERNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: hotel-secret
+                  key: DB_PASSWORD
+            - name: FRONTEND_ORIGIN
+              valueFrom:
+                configMapKeyRef:
+                  name: hotel-config
+                  key: FRONTEND_ORIGIN
+            - name: JPA_SHOW_SQL
+              valueFrom:
+                configMapKeyRef:
+                  name: hotel-config
+                  key: JPA_SHOW_SQL
+            - name: SESSION_TIMEOUT
+              valueFrom:
+                configMapKeyRef:
+                  name: hotel-config
+                  key: SESSION_TIMEOUT
+            - name: SHUTDOWN_TIMEOUT
+              valueFrom:
+                configMapKeyRef:
+                  name: hotel-config
+                  key: SHUTDOWN_TIMEOUT
+            - name: LIQUIBASE_ENABLED
+              value: "false"
+            - name: SERVER_SHUTDOWN
+              value: graceful
+            - name: JAVA_TOOL_OPTIONS
+              value: -XX:MaxRAMPercentage=75.0
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            periodSeconds: 2
+            timeoutSeconds: 2
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: http
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 250m
+              memory: 384Mi
+            limits:
+              cpu: "1"
+              memory: 768Mi
