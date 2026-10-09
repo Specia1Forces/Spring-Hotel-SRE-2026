@@ -109,28 +109,25 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails normalUser = User.builder()
+    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+        UserDetails manager = User.builder()
                 .username("manager")
-                .password("$2a$12$xOIYYujxAOmczE0MoEjayehbthwwqDKlWGPS9o2BKGZmiKG9cJVg2")
+                .password(passwordEncoder.encode("manager123"))
                 .roles("MANAGER")
                 .build();
-        UserDetails adminUser = User.builder()
+
+        UserDetails admin = User.builder()
                 .username("admin")
-                .password("$2a$12$5QM7j4KXIXId6Nm/81zseOxTIfGFuNHEyRs.tH.RU.VNE11fefEqm")
+                .password(passwordEncoder.encode("admin123"))
                 .roles("ADMIN")
                 .build();
 
-        UserDetails hotelManagementServiceUser = User.builder()
+        UserDetails maids = User.builder()
                 .username("maids")
-                .password("$2a$12$wKrAloN8sKDsM9QdXlH0O.7nUvIC4iQWCMOlgjHPygc26xLBPzLIa")
+                .password(passwordEncoder.encode("maids123"))
                 .roles("HOTEL_MANAGEMENT_SERVICE")
                 .build();
-        return new InMemoryUserDetailsManager(normalUser, adminUser, hotelManagementServiceUser);
-    }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new InMemoryUserDetailsManager(manager, admin, maids);
     }
 }
