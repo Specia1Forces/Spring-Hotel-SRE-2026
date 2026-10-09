@@ -130,4 +130,9 @@ public class SecurityConfiguration {
 
         return new InMemoryUserDetailsManager(manager, admin, maids);
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
