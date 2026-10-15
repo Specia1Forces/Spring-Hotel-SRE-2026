@@ -1,0 +1,34 @@
+remoteWrite:
+  - url: http://vls-victoria-logs-single-server:9428
+    maxDiskUsagePerURL: 1GB
+
+collector:
+  includePodLabels: true
+  includePodAnnotations: false
+  includeNodeLabels: false
+  includeNodeAnnotations: false
+  includeNamespaceLabels: false
+  includeNamespaceAnnotations: false
+
+  msgField:
+    - message
+    - msg
+    - log
+  timeField:
+    - timestamp
+    - time
+    - ts
+  streamFields:
+    - kubernetes.container_name
+    - kubernetes.pod_name
+    - kubernetes.pod_namespace
+
+  excludeFilter: "kubernetes.pod_namespace:in(kube-system, observability)"
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
