@@ -78,7 +78,7 @@ spec:
                 configMapKeyRef:
                   name: hotel-config
                   key: SHUTDOWN_TIMEOUT
-            - name: LIQUIBASE_ENABLED
+            - name: SPRING_LIQUIBASE_ENABLED
               value: "false"
             - name: SERVER_SHUTDOWN
               value: graceful

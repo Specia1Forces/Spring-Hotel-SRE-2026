@@ -38,7 +38,7 @@ spec:
                 secretKeyRef:
                   name: hotel-secret
                   key: DB_PASSWORD
-            - name: LIQUIBASE_ENABLED
+            - name: SPRING_LIQUIBASE_ENABLED
               value: "true"
             - name: JPA_SHOW_SQL
               valueFrom:
