@@ -18,7 +18,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: migrate
-          image: hotel-backend:0.1.0
+          image: hotel-backend:0.1.1
           imagePullPolicy: IfNotPresent
           args:
             - --spring.profiles.active=admin-migrate

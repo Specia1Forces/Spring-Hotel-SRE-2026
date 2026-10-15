@@ -1,0 +1,201 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-insert-minimal-demo-data
+      author: spring-hotel
+      objectQuotingStrategy: QUOTE_ALL_OBJECTS
+      changes:
+        - insert:
+            tableName: All services
+            columns:
+              - column:
+                  name: Service ID
+                  valueNumeric: 1001
+              - column:
+                  name: name
+                  value: Завтрак
+              - column:
+                  name: Service price
+                  valueNumeric: 700
+        - insert:
+            tableName: All services
+            columns:
+              - column:
+                  name: Service ID
+                  valueNumeric: 1002
+              - column:
+                  name: name
+                  value: Трансфер из аэропорта
+              - column:
+                  name: Service price
+                  valueNumeric: 1800
+
+        - insert:
+            tableName: Client of hotel
+            columns:
+              - column:
+                  name: Client ID
+                  valueNumeric: 1001
+              - column:
+                  name: Name
+                  value: Иван
+              - column:
+                  name: Middle name
+                  value: Сергеевич
+              - column:
+                  name: Last name
+                  value: Петров
+              - column:
+                  name: Gender
+                  value: Мужской
+              - column:
+                  name: Birthdate
+                  valueDate: '1990-05-14'
+              - column:
+                  name: Address
+                  value: Москва
+              - column:
+                  name: Phone
+                  value: '+7-900-111-22-33'
+        - insert:
+            tableName: Client of hotel
+            columns:
+              - column:
+                  name: Client ID
+                  valueNumeric: 1002
+              - column:
+                  name: Name
+                  value: Анна
+              - column:
+                  name: Middle name
+                  value: Игоревна
+              - column:
+                  name: Last name
+                  value: Смирнова
+              - column:
+                  name: Gender
+                  value: Женский
+              - column:
+                  name: Birthdate
+                  valueDate: '1988-09-21'
+              - column:
+                  name: Address
+                  value: Санкт-Петербург
+              - column:
+                  name: Phone
+                  value: '+7-900-444-55-66'
+
+        - insert:
+            tableName: The Maids
+            columns:
+              - column:
+                  name: MAID_ID
+                  valueNumeric: 1001
+              - column:
+                  name: Name
+                  value: Мария
+              - column:
+                  name: Middle name
+                  value: Андреевна
+              - column:
+                  name: Last name
+                  value: Соколова
+        - insert:
+            tableName: Technical Maintenance Personnel
+            columns:
+              - column:
+                  name: Collaborator Maintenance ID
+                  valueNumeric: 1001
+              - column:
+                  name: Name
+                  value: Алексей
+              - column:
+                  name: Middle name
+                  value: Викторович
+              - column:
+                  name: Last name
+                  value: Орлов
+
+        - insert:
+            tableName: Contracts
+            columns:
+              - column:
+                  name: contract number
+                  valueNumeric: 1001
+              - column:
+                  name: Term of stay
+                  valueNumeric: 4
+              - column:
+                  name: date conclusion agreement
+                  valueDate: '2026-10-15'
+              - column:
+                  name: Client of hotel_Client ID
+                  valueNumeric: 1001
+
+        - insert:
+            tableName: Booking
+            columns:
+              - column:
+                  name: Reservation ID
+                  valueNumeric: 1001
+              - column:
+                  name: Settlement date
+                  valueDate: '2026-11-10'
+              - column:
+                  name: Eviction date
+                  valueDate: '2026-11-14'
+              - column:
+                  name: Total amount of the payment
+                  valueNumeric: 24000
+              - column:
+                  name: Prepayment status
+                  value: Внесена
+              - column:
+                  name: Booking status
+                  value: Подтверждено
+              - column:
+                  name: Residence status
+                  value: Ожидает заселения
+              - column:
+                  name: Client of hotel_Client ID
+                  valueNumeric: 1001
+
+        - insert:
+            tableName: Accounts
+            columns:
+              - column:
+                  name: Account_number
+                  valueNumeric: 1001
+              - column:
+                  name: Amount to be paid
+                  valueNumeric: 24000
+              - column:
+                  name: Amount of the prepayment
+                  valueNumeric: 6000
+              - column:
+                  name: Amount for additionalServices
+                  valueNumeric: 2500
+              - column:
+                  name: Booking_Reservation ID
+                  valueNumeric: 1001
+      rollback:
+        - delete:
+            tableName: Accounts
+            where: '"Account_number" = 1001'
+        - delete:
+            tableName: Booking
+            where: '"Reservation ID" = 1001'
+        - delete:
+            tableName: Contracts
+            where: '"contract number" = 1001'
+        - delete:
+            tableName: Technical Maintenance Personnel
+            where: '"Collaborator Maintenance ID" = 1001'
+        - delete:
+            tableName: The Maids
+            where: '"MAID_ID" = 1001'
+        - delete:
+            tableName: Client of hotel
+            where: '"Client ID" IN (1001, 1002)'
+        - delete:
+            tableName: All services
+            where: '"Service ID" IN (1001, 1002)'
