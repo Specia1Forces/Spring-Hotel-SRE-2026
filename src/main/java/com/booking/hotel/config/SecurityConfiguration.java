@@ -53,7 +53,11 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(registry -> {
                     registry.dispatcherTypeMatchers(FORWARD, ERROR).permitAll();
                     registry.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
-                    registry.requestMatchers("/actuator/health", "/actuator/health/**").permitAll();
+                    registry.requestMatchers(
+                            "/actuator/health",
+                            "/actuator/health/**",
+                            "/actuator/prometheus"
+                    ).permitAll();
                     registry.requestMatchers("/api/v1/auth/login", "/api/v1/auth/csrf").permitAll();
                     registry.requestMatchers("/api/v1/auth/me", "/api/v1/auth/logout").authenticated();
                     registry.requestMatchers(
