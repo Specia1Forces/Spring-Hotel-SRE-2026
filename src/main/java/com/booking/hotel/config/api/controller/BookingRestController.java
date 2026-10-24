@@ -5,6 +5,7 @@ import com.booking.hotel.config.api.dto.BookingCreateRequest;
 import com.booking.hotel.config.api.dto.BookingResponse;
 import com.booking.hotel.config.api.error.BadRequestException;
 import com.booking.hotel.config.api.error.ResourceNotFoundException;
+import com.booking.hotel.config.metrics.HotelBusinessMetrics;
 import com.booking.hotel.models.Booking;
 import com.booking.hotel.models.ClientOfHotel;
 import com.booking.hotel.service.BookingService;
@@ -23,10 +24,12 @@ public class BookingRestController {
 
     private final BookingService bookingService;
     private final ClientOfHotelService clientService;
+    private final HotelBusinessMetrics businessMetrics;
 
-    public BookingRestController(BookingService bookingService, ClientOfHotelService clientService) {
+    public BookingRestController(BookingService bookingService, ClientOfHotelService clientService, HotelBusinessMetrics businessMetrics) {
         this.bookingService = bookingService;
         this.clientService = clientService;
+        this.businessMetrics = businessMetrics;
     }
 
     @GetMapping
@@ -55,6 +58,7 @@ public class BookingRestController {
         booking.setResidenceStatus(request.residenceStatus());
 
         Booking saved = bookingService.save(booking);
+        businessMetrics.recordCreatedBooking();
         return ResponseEntity.created(URI.create("/api/v1/bookings/" + saved.getReservationId()))
                 .body(toResponse(saved));
     }

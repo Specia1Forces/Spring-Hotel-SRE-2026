@@ -4,6 +4,7 @@ package com.booking.hotel.config.api.controller;
 import com.booking.hotel.config.api.dto.ContractCreateRequest;
 import com.booking.hotel.config.api.dto.ContractResponse;
 import com.booking.hotel.config.api.error.ResourceNotFoundException;
+import com.booking.hotel.config.metrics.HotelBusinessMetrics;
 import com.booking.hotel.models.ClientOfHotel;
 import com.booking.hotel.models.Contracts;
 import com.booking.hotel.service.ClientOfHotelService;
@@ -23,10 +24,12 @@ public class ContractRestController {
 
     private final ContractsService contractsService;
     private final ClientOfHotelService clientsService;
+    private final HotelBusinessMetrics businessMetrics;
 
-    public ContractRestController(ContractsService contractsService, ClientOfHotelService clientsService) {
+    public ContractRestController(ContractsService contractsService, ClientOfHotelService clientsService, HotelBusinessMetrics businessMetrics) {
         this.contractsService = contractsService;
         this.clientsService = clientsService;
+        this.businessMetrics = businessMetrics;
     }
 
     @PostMapping
@@ -41,7 +44,7 @@ public class ContractRestController {
         contract.setTermOfStay(request.termOfStay());
         contract.setDateConclusionAgreement(request.agreementDate());
         Contracts saved = contractsService.save(contract);
-
+        businessMetrics.recordCreatedContract();
         ContractResponse response = new ContractResponse(
                 saved.getContractNumber(),
                 client.getClientId(),

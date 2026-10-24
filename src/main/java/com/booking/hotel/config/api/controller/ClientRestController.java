@@ -3,6 +3,7 @@ package com.booking.hotel.config.api.controller;
 
 import com.booking.hotel.config.api.dto.ClientRequest;
 import com.booking.hotel.config.api.dto.ClientResponse;
+import com.booking.hotel.config.metrics.HotelBusinessMetrics;
 import com.booking.hotel.models.ClientOfHotel;
 import com.booking.hotel.service.ClientOfHotelService;
 import jakarta.validation.Valid;
@@ -17,9 +18,11 @@ import java.util.List;
 public class ClientRestController {
 
     private final ClientOfHotelService service;
+    private final HotelBusinessMetrics businessMetrics;
 
-    public ClientRestController(ClientOfHotelService service) {
+    public ClientRestController(ClientOfHotelService service, HotelBusinessMetrics businessMetrics) {
         this.service = service;
+        this.businessMetrics = businessMetrics;
     }
 
     @GetMapping
@@ -39,6 +42,7 @@ public class ClientRestController {
         client.setPhone(request.phone());
 
         ClientOfHotel saved = service.save(client);
+        businessMetrics.recordCreatedClient();
         return ResponseEntity.created(URI.create("/api/v1/clients/" + saved.getClientId()))
                 .body(toResponse(saved));
     }

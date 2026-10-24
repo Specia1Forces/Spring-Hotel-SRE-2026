@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
+import com.booking.hotel.config.metrics.HotelBusinessMetrics;
 
 import java.util.List;
 
@@ -27,13 +28,15 @@ public class AuthRestController {
 
     private final AuthenticationManager authenticationManager;
     private final SecurityContextRepository securityContextRepository;
+    private final HotelBusinessMetrics businessMetrics;
 
     public AuthRestController(
             AuthenticationManager authenticationManager,
-            SecurityContextRepository securityContextRepository
+            SecurityContextRepository securityContextRepository, HotelBusinessMetrics businessMetrics
     ) {
         this.authenticationManager = authenticationManager;
         this.securityContextRepository = securityContextRepository;
+        this.businessMetrics = businessMetrics;
     }
 
     @GetMapping("/csrf")
@@ -55,6 +58,8 @@ public class AuthRestController {
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);
         securityContextRepository.saveContext(context, httpRequest, httpResponse);
+
+        businessMetrics.recordSuccessfulLogin();
 
         return toResponse(authentication);
     }
