@@ -79,8 +79,6 @@ spec:
         - name: postgres-exporter
           image: quay.io/prometheuscommunity/postgres-exporter:v0.20.1
           imagePullPolicy: IfNotPresent
-          args:
-            - "--datasource.uri=localhost:5432/$(DB_NAME)?sslmode=disable"
           ports:
             - name: metrics
               containerPort: 9187
@@ -101,6 +99,8 @@ spec:
                 secretKeyRef:
                   name: hotel-secret
                   key: DB_PASSWORD
+            - name: DATA_SOURCE_NAME
+              value: "postgresql://$(DATA_SOURCE_USER):$(DATA_SOURCE_PASS)@localhost:5432/$(DB_NAME)?sslmode=disable"
           readinessProbe:
             httpGet:
               path: /metrics
